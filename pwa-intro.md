@@ -40,3 +40,19 @@ Seguindo uma definição teórica do que seriam as PWA's
 * Linkable - Compartilhe facilmente via URL e não requeira instalação complexa.
 
 Podemos deduzir então que, se antes somente os aplicativos nativos tinham: push notifications, funcionamento offline, geolocalização e ícone na home screen, agora podemos usar tudo isso em uma aplicação 100% web.
+
+## Por que construir um PWA ?
+
+Segundo o site [Developers Google](https://developers.google.com/web/progressive-web-apps/):
+
+> A criação de um Progressive Web App de alta qualidade traz benefícios incríveis, facilitando a satisfação de seus usuários, o aumento do engajamento e o aumento de conversões.
+
+* Digno de estar na tela inicial - Quando os critérios do Progressive Web App são atendidos, o Chrome solicita que os usuários adicionem o Progressive Web App à sua tela inicial.
+
+* Trabalhe de forma confiável, independentemente das condições da rede - Serivce Workers permitiram que o Konga enviasse 63% menos dados para carregamentos iniciais de página e 84% menos dados para concluir a primeira transação!
+
+* Maior engajamento - As web push notifications ajudaram a eXtra Electronics a aumentar o engajamento em 4 vezes. E esses usuários gastam o dobro do tempo no site.
+
+* Conversões melhoradas - A capacidade de proporcionar uma experiência incrível ao usuário ajudou o AliExpress a aumentar as conversões para novos usuários em todos os navegadores em 104% e no iOS em 82%.
+
+Com isso podemos perceber com esses cases descritos que a retenção se torna muito melhor quando construímos um PWA. Isso acontece por tirarmos muitos passos para que usuário possa de fato usar sua aplicação, não sendo mais necessário ir para uma store, pesquisar pela aplicação, baixar e só depois interagir.
