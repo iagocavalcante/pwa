@@ -9,7 +9,7 @@ experiências de usuários que têm o alcance da Web e são:
 
 * Rápido - responda rapidamente às interações do usuário com animações suaves e sem rolagem.
 
-* Envolvendo - Sinta-se como um aplicativo natural no dispositivo, com uma experiência de usuário imersiva.
+* Engajável - Sinta-se como em um aplicativo nativo no dispositivo, com uma experiência de usuário imersiva.
 
 Esse novo nível de qualidade permite que os Progressive Web Apps ganhem um lugar na tela inicial do usuário.
 
