@@ -222,7 +222,7 @@ Quando você usa o fetch, por padrão, a solicitação não terá credenciais, c
 fetch(url, {
   credentials: 'include'
 })
-Esse comportamento é intencional e é provavelmente melhor que o padrão mais complexo do XHR, que é enviar credenciais se o URL for da mesma origem e, caso contrário, omiti-las. O comportamento da recuperação é mais parecido com outras solicitações CORS, como <img crossorigin>, que nunca enviam cookies, a menos que você aceite usando <img crossorigin="use-credentials">.
+Esse comportamento é intencional e é provavelmente melhor que o padrão mais complexo do XHR, que é enviar credenciais se o URL for da mesma origem e, caso contrário, omiti-las. O comportamento da recuperação é mais parecido com outras solicitações CORS, como igin>, que nunca enviam cookies, a menos que você aceite usando igin="use-credentials">.
 
 Por padrão, falha sem CORS
 Por padrão, a recuperação de um recurso de um URL de terceiros falhará se não for compatível com CORS. Você pode adicionar uma opção no-CORS à solicitação para evitar a falha, mas isso causará uma resposta "opaca", o que significa que você não saberá se a resposta foi bem-sucedida ou não.
@@ -233,11 +233,11 @@ cache.addAll(urlsToPrefetch.map(function(urlToPrefetch) {
   console.log('All resources have been fetched and cached.');
 });
 Tratar imagens responsivas
-O atributo srcset do elemento <picture> seleciona o ativo de imagem mais adequado em tempo de execução e faz uma solicitação de rede.
+O atributo srcset do elemento seleciona o ativo de imagem mais adequado em tempo de execução e faz uma solicitação de rede.
 
 Para o service worker, há algumas opções caso seja necessário armazenar uma imagem em cache durante a etapa de instalação:
 
-Instale todas as imagens solicitadas pelo elemento <picture> e pelo atributo srcset.
+Instale todas as imagens solicitadas pelo elemento e pelo atributo srcset.
 
 Instale uma única versão da imagem em baixa resolução.
 
@@ -253,11 +253,8 @@ Densidade de tela	Largura	Altura
 2x	800	800
 Em uma imagem srcset, teríamos uma marcação como esta:
 
-<img src="image-src.png" srcset="image-src.png 1x, image-2x.png 2x" />
 Se estivermos em uma tela 2x, o navegador optará pelo download de image-2x.png. Se estivermos off-line, poderemos capturar essa solicitação com .catch() e retornar image-src.png , se estiver no cache. No entanto, o navegador esperará uma imagem que considere os pixels extras de uma tela 2x. Portanto, a imagem aparecerá como 200x200 pixels CSS em vez de 400x400 pixels CSS. A única forma de contornar isso é definir uma altura e largura fixas na imagem.
 
-<img src="image-src.png" srcset="image-src.png 1x, image-2x.png 2x"
- style="width:400px; height: 400px;" />
-Para elementos <picture> usados para direção de arte, isso fica consideravelmente mais difícil e depende em grande parte de como as imagens são criadas e usadas. No entanto, pode ser possível usar uma abordagem similar para srcset.
+Para elementos  usados para direção de arte, isso fica consideravelmente mais difícil e depende em grande parte de como as imagens são criadas e usadas. No entanto, pode ser possível usar uma abordagem similar para srcset.
 
 referência para posterior lapidação.
