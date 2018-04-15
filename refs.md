@@ -20,3 +20,5 @@
 * [Frontinsampa 2015 - Sergio Lopes: Progressive Web Apps: o melhor da web, "Appficada"APPFICADA"](https://www.youtube.com/watch?v=sH7dlRnuh-k)
 * [Segredos não ditos de PWA - Eduardo Matos](https://www.youtube.com/watch?v=z68C1yAaC0I)
 * [WebFundamentals](https://developers.google.com/web/fundamentals/codelabs/your-first-pwapp/)
+* [Hello World](https://medium.com/dev-channel/learn-how-to-build-a-pwa-in-under-5-minutes-c860ad406ed)
+* [Progressive Web Apps on iOS are here 🚀](https://medium.com/@firt/progressive-web-apps-on-ios-are-here-d00430dee3a7)
