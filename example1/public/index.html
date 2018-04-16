@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="manifest" href="manifest.json">
   <title>My hello world page</title>
   <style>
     body {
@@ -38,6 +39,28 @@
       messagingSenderId: "540065615980"
     };
     firebase.initializeApp(config);
+  </script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js')
+        .then(function () {
+          console.log('Service Worker Registered');
+        });
+    }
+  </script>
+  <script>
+    const messaging = firebase.messaging();
+    messaging.requestPermission()
+      .then(function () {
+        console.log('Notification permission granted.');
+        return messaging.getToken();
+      })
+      .then(function (token) {
+        console.log(token);
+      })
+      .catch(function (err) {
+        console.log('Unable to get permission to notify.', err);
+      })
   </script>
 </body>
 
