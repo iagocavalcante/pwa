@@ -9,6 +9,36 @@
 <body>
   It's not just a hello world
   <h1>PWA with pure html, js and css</h1>
+  <div style="width: 640px; height: 480px" id="mapContainer"></div>
 </body>
-<script async src="js/sw.js"></script>
+<script src="http://js.api.here.com/v3/3.0/mapsjs-core.js" type="text/javascript" charset="utf-8"></script>
+<script src="http://js.api.here.com/v3/3.0/mapsjs-service.js" type="text/javascript" charset="utf-8"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js')
+      .then(function () {
+        console.log('Service Worker Registered');
+      });
+  }
+</script>
+<script>
+  var platform = new H.service.Platform({
+      'app_id': 'F4EanikW0W21ch2aupWj',
+      'app_code': 'vlrtjX8JjFjn-yMrUbnZ1g'
+    });
+
+    var defaultLayers = platform.createDefaultLayers();
+
+    // Instantiate (and display) a map object:
+    var map = new H.Map(
+      document.getElementById('mapContainer'),
+      defaultLayers.normal.map,
+      {
+        zoom: 10,
+        center: { 
+          lat: -1.4377446999999999, 
+          lng: -48.4822813 
+        }
+      });
+</script>
 </html>
