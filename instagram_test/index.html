@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Instagram APP</title>
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css?family=Gugi');
+    
+    * {
+      overflow-x: hidden;
+      font-family: 'Gugi', cursive;
+      margin: 0px;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center
+    }
+
+    .box {
+      margin-top: 20px;
+      width: auto;
+      height: auto;
+    }
+
+    @media screen and (min-width: 769px) {
+      .box {
+        margin-top: 20px;
+        width: 450px;
+        height: 100px;
+      }
+    }
+
+    .flex-container {
+      padding: 0;
+      margin: 0;
+      list-style: none;    
+      -ms-box-orient: horizontal;
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -moz-flex;
+      display: -webkit-flex;
+      display: flex;
+    }
+
+    .row { 
+      -webkit-flex-direction: row; 
+      flex-direction: row;
+      flex-wrap: wrap
+    }
+
+    .flex-item {
+      padding: 5px;
+      margin: 5px;
+      width: 400px;
+      line-height: 50px;
+      font-weight: bold;
+      font-size: 1.3em;
+      text-align: center;
+    }
+
+    .flex-body {
+      max-height: 400px;
+    }
+
+    input, button {
+      border-radius: 5px;
+      height: 35px;
+      font-size: 1.3em;
+      border: 1px solid #ccc;
+    }
+
+    .img_class {
+      width: 400px;
+      height: 400px;
+      background-size: 100% 100%;
+    }
+
+    #nextPage {
+      margin-top: 46px;
+    }
+
+    #searcTag, #nextPage {
+      cursor: pointer;
+    }
+
+  </style>
+
+</head>
+<body>
+  <div class="container">
+    <div class="box">
+      <h1>Find Posts By HashTag</h1>
+      <input type="text" name="tagName" id="tagName" placeholder="insert a hashtag without #">
+      <button id="searchTag">Search 🔍</button>
+    </div>
+    <div class="box" id="pagination">
+    </div>
+  </div>
+  <div id="parent">
+  </div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+<script>
+  const buttonSearch = document.querySelector('#searchTag')
+  
+  buttonSearch.addEventListener( 'click', () => {
+    const tagName = document.querySelector('#tagName').value
+    const pagination = document.querySelector('#pagination')
+    if ( pagination.hasChildNodes() ) pagination.removeChild(pagination.firstChild)
+    searchbyTag(tagName)
+  })
+
+  const searchbyTag = ( tagName, hasNextPage = false, endCursor = '' ) => {
+    axios.get(`https://www.instagram.com/explore/tags/${tagName}/?__a=1${ hasNextPage ? `&max_id=${endCursor}` : ''}`)
+      .then(response => {
+        checkNextPage(response.data.graphql.hashtag.edge_hashtag_to_media.page_info.has_next_page, response.data.graphql.hashtag.edge_hashtag_to_media.page_info.end_cursor)
+        console.log(response.data.graphql.hashtag.edge_hashtag_to_media.edges)
+        showPhotosFromTag(response.data.graphql.hashtag.edge_hashtag_to_media.edges)
+      })
+      .catch(err => {
+        console.log(err)
+        alert('Not found any posts with this HashTag')
+      })
+  }
+
+  const showPhotosFromTag = (dataFromApi) => {
+    const divListPhotos = document.createElement('div')
+    divListPhotos.setAttribute('id', 'listPhotos')
+    divListPhotos.setAttribute('class', 'flex-container row')
+    const parent = document.querySelector('#parent')
+    if ( parent.hasChildNodes() ) {
+      parent.removeChild(parent.firstChild)
+    }
+    parent.appendChild(divListPhotos)
+    const listPhotos = document.querySelector('#listPhotos')
+    dataFromApi.forEach((photo, index) => {
+      const divContainer = document.createElement('div')
+      const divImage = document.createElement('div')
+      divContainer.setAttribute('class', 'flex-item')
+      const nodeImage = document.createElement('img')
+      nodeImage.setAttribute('src', photo.node.display_url)
+      nodeImage.setAttribute('class', 'img_class')
+      const likes = document.createElement('p')
+      const caption = document.createElement('p')
+      likes.innerHTML = `${photo.node.edge_liked_by.count} &#x1F496;`
+      caption.textContent = `${photo.node.edge_media_to_caption.edges[0].node.text}`
+      divImage.appendChild(nodeImage)
+      divContainer.appendChild(divImage)
+      divContainer.appendChild(likes)
+      divContainer.appendChild(caption)
+      listPhotos.appendChild(divContainer)
+    })
+  }
+
+  const checkNextPage = (hasNextPage, endCursor) => {
+    if (hasNextPage) {
+      const divPagination = document.querySelector('#pagination')
+      divPagination.innerHTML = '<button id="nextPage">Next Page ➡️</button>'
+      const nextPage = document.querySelector('#nextPage')
+      nextPage.addEventListener('click', () => {
+        const tagName = document.querySelector('#tagName').value
+        searchbyTag(tagName, hasNextPage, endCursor)
+      })
+    }
+  }
+
+</script>
+</html>
