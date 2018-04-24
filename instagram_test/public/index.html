@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Instagram APP</title>
-  
+
   <style>
     @import url('https://fonts.googleapis.com/css?family=Gugi');
-    
+
     * {
       overflow-x: hidden;
       font-family: 'Gugi', cursive;
       margin: 0px;
+    }
+
+    body {
+      margin-top: 20px;
     }
 
     .container {
@@ -39,7 +44,7 @@
     .flex-container {
       padding: 0;
       margin: 0;
-      list-style: none;    
+      list-style: none;
       -ms-box-orient: horizontal;
       display: -webkit-box;
       display: -moz-box;
@@ -49,8 +54,8 @@
       display: flex;
     }
 
-    .row { 
-      -webkit-flex-direction: row; 
+    .row {
+      -webkit-flex-direction: row;
       flex-direction: row;
       flex-wrap: wrap
     }
@@ -69,7 +74,8 @@
       max-height: 400px;
     }
 
-    input, button {
+    input,
+    button {
       border-radius: 5px;
       height: 35px;
       font-size: 1.3em;
@@ -86,22 +92,24 @@
       margin-top: 46px;
     }
 
-    #searcTag, #nextPage {
+    #searcTag,
+    #nextPage {
       cursor: pointer;
     }
 
+    #tagName {
+      width: 70%;
+    }
   </style>
 
 </head>
+
 <body>
+  <center>
+    <h1>Find Posts By HashTag</h1>
+    <input type="text" name="tagName" id="tagName" placeholder="insert a hashtag without #" oninput="search(event)">
+  </center>
   <div class="container">
-    <div class="box">
-      <h1>Find Posts By HashTag</h1>
-      <form action="" id="formSearch">
-        <input type="text" name="tagName" id="tagName" placeholder="insert a hashtag without #">
-        <button id="searchTag" type="submit">Search 🔍</button>
-      </form>
-    </div>
     <div class="box" id="pagination">
     </div>
   </div>
@@ -112,25 +120,38 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/locale/pt-br.js"></script>
 <script>
-  const buttonSearch = document.querySelector('#searchTag')
-  
-  buttonSearch.addEventListener( 'click', function (evt) {
-    evt.preventDefault()
-    const tagName = document.querySelector('#tagName').value
-    const pagination = document.querySelector('#pagination')
-    if ( pagination.hasChildNodes() ) pagination.removeChild(pagination.firstChild)
-    searchbyTag(tagName)
-  })
-  
-  buttonSearch.addEventListener( 'submit', function (evt) {
-    evt.preventDefault()
-    const tagName = document.querySelector('#tagName').value
-    const pagination = document.querySelector('#pagination')
-    if ( pagination.hasChildNodes() ) pagination.removeChild(pagination.firstChild)
-    searchbyTag(tagName)
-  })
+  let loop = null
 
-  const searchbyTag = ( tagName, hasNextPage = false, endCursor = '' ) => {
+  const search = (e) => {
+    clearTimeout(loop);
+    loop = setTimeout(() => {
+      e.preventDefault()
+      const tagName = document.querySelector('#tagName').value
+      const pagination = document.querySelector('#pagination')
+      if (pagination.hasChildNodes()) pagination.removeChild(pagination.firstChild)
+      searchbyTag(tagName)
+    }, 2000)
+  }
+
+  // const buttonSearch = document.querySelector('#searchTag')
+
+  // buttonSearch.addEventListener('click', function(evt) {
+  //   evt.preventDefault()
+  //   const tagName = document.querySelector('#tagName').value
+  //   const pagination = document.querySelector('#pagination')
+  //   if (pagination.hasChildNodes()) pagination.removeChild(pagination.firstChild)
+  //   searchbyTag(tagName)
+  // })
+  //
+  // buttonSearch.addEventListener('submit', function(evt) {
+  //   evt.preventDefault()
+  //   const tagName = document.querySelector('#tagName').value
+  //   const pagination = document.querySelector('#pagination')
+  //   if (pagination.hasChildNodes()) pagination.removeChild(pagination.firstChild)
+  //   searchbyTag(tagName)
+  // })
+
+  const searchbyTag = (tagName, hasNextPage = false, endCursor = '') => {
     axios.get(`https://www.instagram.com/explore/tags/${tagName}/?__a=1${ hasNextPage ? `&max_id=${endCursor}` : ''}`)
       .then(response => {
         checkNextPage(response.data.graphql.hashtag.edge_hashtag_to_media.page_info.has_next_page, response.data.graphql.hashtag.edge_hashtag_to_media.page_info.end_cursor)
@@ -148,7 +169,7 @@
     divListPhotos.setAttribute('id', 'listPhotos')
     divListPhotos.setAttribute('class', 'flex-container row')
     const parent = document.querySelector('#parent')
-    if ( parent.hasChildNodes() ) {
+    if (parent.hasChildNodes()) {
       parent.removeChild(parent.firstChild)
     }
     parent.appendChild(divListPhotos)
@@ -176,7 +197,7 @@
   }
 
   const checkNextPage = (hasNextPage, endCursor) => {
-    if ( hasNextPage ) {
+    if (hasNextPage) {
       const divPagination = document.querySelector('#pagination')
       divPagination.innerHTML = '<button id="nextPage">Next Page ➡️</button>'
       const nextPage = document.querySelector('#nextPage')
@@ -190,6 +211,6 @@
       if (pagination.hasChildNodes()) pagination.removeChild(pagination.firstChild)
     }
   }
-
 </script>
+
 </html>
