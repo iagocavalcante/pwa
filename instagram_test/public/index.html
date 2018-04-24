@@ -176,7 +176,7 @@
   }
 
   const checkNextPage = (hasNextPage, endCursor) => {
-    if (hasNextPage) {
+    if ( hasNextPage ) {
       const divPagination = document.querySelector('#pagination')
       divPagination.innerHTML = '<button id="nextPage">Next Page ➡️</button>'
       const nextPage = document.querySelector('#nextPage')
@@ -184,6 +184,10 @@
         const tagName = document.querySelector('#tagName').value
         searchbyTag(tagName, hasNextPage, endCursor)
       })
+    } else {
+      alert('Finish Posts!! Please, search another TAG!!!!')
+      const pagination = document.querySelector('#pagination')
+      if (pagination.hasChildNodes()) pagination.removeChild(pagination.firstChild)
     }
   }
 
