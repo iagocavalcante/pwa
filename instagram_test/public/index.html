@@ -61,7 +61,7 @@
       width: 400px;
       line-height: 50px;
       font-weight: bold;
-      font-size: 1.3em;
+      font-size: 0.9em;
       text-align: center;
     }
 
@@ -97,8 +97,10 @@
   <div class="container">
     <div class="box">
       <h1>Find Posts By HashTag</h1>
-      <input type="text" name="tagName" id="tagName" placeholder="insert a hashtag without #">
-      <button id="searchTag">Search 🔍</button>
+      <form action="" id="formSearch">
+        <input type="text" name="tagName" id="tagName" placeholder="insert a hashtag without #">
+        <button id="searchTag" type="submit">Search 🔍</button>
+      </form>
     </div>
     <div class="box" id="pagination">
     </div>
@@ -107,10 +109,21 @@
   </div>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/locale/pt-br.js"></script>
 <script>
   const buttonSearch = document.querySelector('#searchTag')
   
-  buttonSearch.addEventListener( 'click', () => {
+  buttonSearch.addEventListener( 'click', function (evt) {
+    evt.preventDefault()
+    const tagName = document.querySelector('#tagName').value
+    const pagination = document.querySelector('#pagination')
+    if ( pagination.hasChildNodes() ) pagination.removeChild(pagination.firstChild)
+    searchbyTag(tagName)
+  })
+  
+  buttonSearch.addEventListener( 'submit', function (evt) {
+    evt.preventDefault()
     const tagName = document.querySelector('#tagName').value
     const pagination = document.querySelector('#pagination')
     if ( pagination.hasChildNodes() ) pagination.removeChild(pagination.firstChild)
@@ -148,13 +161,16 @@
       nodeImage.setAttribute('src', photo.node.display_url)
       nodeImage.setAttribute('class', 'img_class')
       const likes = document.createElement('p')
-      const caption = document.createElement('p')
+      const date = document.createElement('p')
+      // const caption = document.createElement('p')
       likes.innerHTML = `${photo.node.edge_liked_by.count} &#x1F496;`
-      caption.textContent = `${photo.node.edge_media_to_caption.edges[0].node.text}`
+      // caption.textContent = `${photo.node.edge_media_to_caption.edges[0].node.text}`
+      date.textContent = `${moment.unix(photo.node.taken_at_timestamp).format('dddd, DD, MMMM, YYYY h:mm:ss A')}`
       divImage.appendChild(nodeImage)
       divContainer.appendChild(divImage)
       divContainer.appendChild(likes)
-      divContainer.appendChild(caption)
+      // divContainer.appendChild(caption)
+      divContainer.appendChild(date)
       listPhotos.appendChild(divContainer)
     })
   }
