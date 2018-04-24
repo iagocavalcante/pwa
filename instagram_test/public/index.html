@@ -165,7 +165,7 @@
       // const caption = document.createElement('p')
       likes.innerHTML = `${photo.node.edge_liked_by.count} &#x1F496;`
       // caption.textContent = `${photo.node.edge_media_to_caption.edges[0].node.text}`
-      date.textContent = `${moment.unix(photo.node.taken_at_timestamp).format('dddd, DD, MMMM, YYYY h:mm:ss A')}`
+      date.innerHTML = `📅 ${moment.unix(photo.node.taken_at_timestamp).format('dddd, DD, MMMM, YYYY h:mm:ss A')}`
       divImage.appendChild(nodeImage)
       divContainer.appendChild(divImage)
       divContainer.appendChild(likes)
